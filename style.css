@@ -42,7 +42,7 @@ body {
 }
 
 .buttons {
-    text-align: center;
+   text-align: center;
 }
 
 .button {
@@ -62,11 +62,14 @@ body {
 
 .button:hover {
     background-color: #31a881;
+    transition: 0.5s linear;
 }
 
+.button.pressed,
 .button:active {
     border-radius: 30px;
     background-color: hsl(100, 79%, 52%);
+    transition: 0.2s linear;
 }
 
 .button--bit-wide {
@@ -77,4 +80,9 @@ body {
 .button--wide {
     width: 100px;
     background-color: black;
+}
+
+.button--extra-wide {
+    width: 292px;
+    background-color: hsl(0, 0%, 28%);
 }

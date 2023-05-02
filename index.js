@@ -1,7 +1,10 @@
+let keyElement = document.getElementsByClassName('button');
+let text = document.getElementsByClassName('textarea');
+
 const Keyboard = {
     elements: {
         title: "",
-        textarea,
+        textarea: "",
         keyboard: null,
         buttons: null,
         keys: [],
@@ -18,7 +21,7 @@ const Keyboard = {
         value: "",
         capsLock: false
     },
-
+   
     init() {
 
         // Create keyboard elements
@@ -81,12 +84,13 @@ const Keyboard = {
 
             switch (key) {
                 case "backspace":
+                    keyElement.classList.add("button--wide");    
                     keyElement.innerHTML = createIconHTML("Backspace");
                     keyElement.style.width = "110px";
-                    keyElement.style.backgroundColor = "black";
 
                     keyElement.addEventListener("click", () => {
                         this.properties.value = this.properties.value.substring(0, this.properties.value.length - 1);
+                        this.elements.textarea.textContent = this.properties.value;
                         this.triggerEvent("oninput");
                     });
 
@@ -98,7 +102,7 @@ const Keyboard = {
 
                     keyElement.addEventListener("click", () => {
                         this.toggleCapsLock();
-                        keyElement.classList.toggle("button:active", this.properties.capsLock);
+                        keyElement.classList.toggle("pressed", this.properties.capsLock);
                     });
 
                     break;
@@ -117,19 +121,19 @@ const Keyboard = {
                 case "shift":
                     keyElement.classList.add("button--wide");
                     keyElement.innerHTML = createIconHTML("Shift");
-
+    
                     break;
 
                 case "ctrl":
                     keyElement.classList.add("button--bit-wide");
                     keyElement.innerHTML = createIconHTML("Ctrl");
-
+        
                     break;
-
+                
                 case "del":
                     keyElement.classList.add("button--bit-wide");
                     keyElement.innerHTML = createIconHTML("Del");
-
+            
                     break;
 
                 case "tab":
@@ -140,19 +144,19 @@ const Keyboard = {
                         this.properties.value += "    ";
                         this.triggerEvent("oninput");
                     });
-
+            
                     break;
 
                 case "win":
                     keyElement.classList.add("button--bit-wide");
                     keyElement.innerHTML = createIconHTML("Win");
-
+                
                     break;
-
+    
                 case "alt":
                     keyElement.classList.add("button--bit-wide");
                     keyElement.innerHTML = createIconHTML("Alt");
-
+                
                     break;
 
                 case "space":
@@ -168,17 +172,36 @@ const Keyboard = {
 
                 default:
                     keyElement.textContent = key.toLowerCase();
-
+    
                     keyElement.addEventListener("click", () => {
                         this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
                         this.triggerEvent("oninput");
+                        this.elements.textarea.textContent = this.properties.value;
                     });
 
-                    break;
+                break;
             }
 
             fragment.appendChild(keyElement);
         });
+       
+        document.addEventListener('keydown' , function(index){
+            for (let i = 0; i < keyElement.length; i++) {
+                if(keyElement[i].innerHTML.toUpperCase() === index.key.toUpperCase()){
+                    keyElement[i].classList.add('pressed')
+                    console.log(index.key);
+                    text.textContent += index.key;
+                };
+            }
+        })
+        
+        document.addEventListener('keyup' , function(index){
+            for(let j = 0; j < keyElement.length; j++){
+                if(keyElement[j].innerHTML.toUpperCase() === index.key.toUpperCase()){
+                    keyElement[j].classList.remove('pressed')
+                }
+            }
+        })
 
         return fragment;
     },
@@ -197,7 +220,7 @@ const Keyboard = {
                 key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
             }
         }
-    }
+    }, 
 };
 
 window.addEventListener("DOMContentLoaded", function () {
