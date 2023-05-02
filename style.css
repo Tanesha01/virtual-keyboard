@@ -82,6 +82,11 @@ body {
     background-color: black;
 }
 
+.backspace {
+    width: 110px;
+    background-color: black;
+}
+
 .button--extra-wide {
     width: 292px;
     background-color: hsl(0, 0%, 28%);
