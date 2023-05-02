@@ -69,7 +69,7 @@ const Keyboard = {
 
         // Creates HTML for an icon
         const createIconHTML = (icon_name) => {
-            return `<i class="material-icons">${icon_name}</i>`;
+            return `<i>${icon_name}</i>`;
         };
 
         keyLayout.forEach(key => {
@@ -181,6 +181,22 @@ const Keyboard = {
         });
 
         return fragment;
+    },
+
+    triggerEvent(handlerName) {
+        if (typeof this.eventHandlers[handlerName] == "function") {
+            this.eventHandlers[handlerName](this.properties.value);
+        }
+    },
+
+    toggleCapsLock() {
+        this.properties.capsLock = !this.properties.capsLock;
+
+        for (const key of this.elements.keys) {
+            if (key.childElementCount === 0) {
+                key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
+            }
+        }
     }
 };
 
